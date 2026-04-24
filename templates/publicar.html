@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Anúncio - OzonoZungu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+
+    <!-- NAVBAR -->
+    <nav class="bg-gray-900 px-6 py-4 flex justify-between items-center border-b border-orange-500">
+        <a href="/" class="text-orange-500 text-2xl font-bold">OzonoZungu</a>
+        <div class="flex gap-4">
+            <a href="/" class="text-gray-300 hover:text-orange-500">Anúncios</a>
+            <a href="/publicar" class="bg-orange-500 px-4 py-2 rounded-lg text-black font-semibold hover:bg-orange-400">Publicar</a>
+        </div>
+    </nav>
+
+    <!-- FORMULÁRIO -->
+    <div class="max-w-2xl mx-auto py-12 px-6">
+        <h2 class="text-3xl font-bold mb-8">Publicar <span class="text-orange-500">Anúncio</span></h2>
+
+        <form method="POST" enctype="multipart/form-data" class="flex flex-col gap-5">
+
+            <div>
+                <label class="text-gray-400 text-sm mb-1 block">Título</label>
+                <input type="text" name="titulo" required
+                    class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                    placeholder="Ex: iPhone 13 Pro Max">
+            </div>
+
+            <div>
+                <label class="text-gray-400 text-sm mb-1 block">Categoria</label>
+                <select name="categoria" required
+                    class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500">
+                    <option value="">Seleciona uma categoria</option>
+                    <option value="Electrónica">Electrónica</option>
+                    <option value="Vestuário">Vestuário</option>
+                    <option value="Veículos">Veículos</option>
+                    <option value="Imóveis">Imóveis</option>
+                    <option value="Serviços">Serviços</option>
+                    <option value="Outros">Outros</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="text-gray-400 text-sm mb-1 block">Preço (Kz)</label>
+                <input type="text" name="preco" required
+                    class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                    placeholder="Ex: 150.000 Kz">
+            </div>
+
+            <div>
+                <label class="text-gray-400 text-sm mb-1 block">Descrição</label>
+                <textarea name="descricao" required rows="4"
+                    class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                    placeholder="Descreve o teu produto ou serviço..."></textarea>
+            </div>
+
+            <div>
+                <label class="text-gray-400 text-sm mb-1 block">Contacto (WhatsApp ou telefone)</label>
+                <input type="text" name="contacto" required
+                    class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                    placeholder="Ex: +244 923 000 000">
+            </div>
+<div>
+    <label class="text-gray-400 text-sm mb-1 block">Imagem do produto</label>
+    <input type="file" name="imagem" accept="image/*"
+        class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500">
+</div>
+            <button type="submit"
+                class="bg-orange-500 text-black font-bold py-3 rounded-xl hover:bg-orange-400 transition text-lg mt-2">
+                Publicar Anúncio
+            </button>
+
+        </form>
+    </div>
+
+</body>
+</html> 

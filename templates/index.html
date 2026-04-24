@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OzonoZungu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+
+    <!-- NAVBAR -->
+    <nav class="bg-gray-900 px-6 py-4 flex justify-between items-center border-b border-orange-500">
+        <a href="/" class="text-orange-500 text-2xl font-bold">OzonoZungu</a>
+        <div class="flex gap-4">
+            <a href="/" class="text-gray-300 hover:text-orange-500">Anúncios</a>
+            <a href="/publicar" class="bg-orange-500 px-4 py-2 rounded-lg text-black font-semibold hover:bg-orange-400">Publicar</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="text-center py-16 px-6">
+        <h2 class="text-4xl font-bold mb-4">Compra. Vende. <span class="text-orange-500">Em Angola.</span></h2>
+        <p class="text-gray-400 text-lg mb-8">A plataforma feita por angolanos, para angolanos.</p>
+        <a href="/publicar" class="bg-orange-500 text-black px-8 py-3 rounded-xl font-bold text-lg hover:bg-orange-400">Publicar Anúncio</a>
+    </section>
+
+    <!-- ANÚNCIOS -->
+    <section class="max-w-6xl mx-auto px-6 pb-16">
+        <!-- BARRA DE PESQUISA -->
+<form method="GET" action="/" class="mb-8">
+    <div class="flex gap-3">
+        <input type="text" name="pesquisa" value="{{ pesquisa }}"
+            placeholder="Pesquisar anúncios..."
+            class="flex-1 bg-gray-900 border border-gray-700 rounded-xl px-5 py-3 text-white focus:outline-none focus:border-orange-500">
+        <button type="submit"
+            class="bg-orange-500 text-black font-bold px-6 py-3 rounded-xl hover:bg-orange-400 transition">
+            Pesquisar
+        </button>
+    </div>
+</form>
+<!-- FILTROS -->
+<div class="flex flex-wrap gap-3 mb-8">
+    <a href="/" class="px-4 py-2 rounded-full text-sm font-semibold border border-gray-700 hover:border-orange-500 hover:text-orange-500 transition {% if not categoria_actual %}bg-orange-500 text-black border-orange-500{% endif %}">
+        Todos
+    </a>
+    {% for cat in ['Electrónica', 'Vestuário', 'Veículos', 'Imóveis', 'Serviços', 'Outros'] %}
+    <a href="/?categoria={{ cat }}" class="px-4 py-2 rounded-full text-sm font-semibold border border-gray-700 hover:border-orange-500 hover:text-orange-500 transition {% if categoria_actual == cat %}bg-orange-500 text-black border-orange-500{% endif %}">
+        {{ cat }}
+    </a>
+    {% endfor %}
+</div>
+        {% if anuncios %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for anuncio in anuncios %}
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 hover:border-orange-500 transition">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="bg-orange-500 text-black text-xs font-bold px-3 py-1 rounded-full">{{ anuncio.categoria }}</span>
+                    <span class="text-gray-500 text-xs">{{ anuncio.data.strftime('%d/%m/%Y') }}</span>
+                </div>
+                <a href="/anuncio/{{ anuncio.id }}">
+                    {% if anuncio.imagem %}
+<img src="{{ url_for('static', filename='uploads/' + anuncio.imagem) }}"
+    class="w-full h-40 object-cover rounded-xl mb-3">
+{% else %}
+<div class="w-full h-40 bg-gray-800 rounded-xl mb-3 flex items-center justify-center">
+    <span class="text-gray-600 text-sm">Sem imagem</span>
+</div>
+{% endif %}
+    <h4 class="text-lg font-bold mb-2 hover:text-orange-500 transition">{{ anuncio.titulo }}</h4>
+</a>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">{{ anuncio.descricao }}</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-orange-500 font-bold">{{ anuncio.preco }}</span>
+                    <a href="https://wa.me/{{ anuncio.contacto }}" target="_blank"
+                        class="bg-gray-800 text-white text-sm px-3 py-1 rounded-lg hover:bg-orange-500 hover:text-black transition">
+                        Contactar
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-20 text-gray-600">
+            <p class="text-xl">Nenhum anúncio ainda.</p>
+            <p class="text-sm mt-2">Sê o primeiro a publicar!</p>
+        </div>
+        {% endif %}
+    </section>
+
+</body>
+</html>
