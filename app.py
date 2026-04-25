@@ -22,6 +22,7 @@ class Anuncio(db.Model):
     categoria = db.Column(db.String(50), nullable=False)
     contacto = db.Column(db.String(50), nullable=False)
     imagem = db.Column(db.String(200), nullable=True)
+    vendido = db.Column(db.Boolean, default=False)
     data = db.Column(db.DateTime, default=datetime.utcnow)
 
 @app.route('/')
@@ -62,6 +63,19 @@ def publicar():
 def anuncio(id):
     anuncio = Anuncio.query.get_or_404(id)
     return render_template('anuncio.html', anuncio=anuncio)
+@app.route('/apagar/<int:id>', methods=['POST'])
+def apagar(id):
+    anuncio = Anuncio.query.get_or_404(id)
+    db.session.delete(anuncio)
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/vendido/<int:id>', methods=['POST'])
+def vendido(id):
+    anuncio = Anuncio.query.get_or_404(id)
+    anuncio.vendido = True
+    db.session.commit()
+    return redirect(url_for('anuncio', id=id))
 
 with app.app_context():
     db.create_all()
