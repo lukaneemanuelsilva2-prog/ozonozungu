@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registar - KitandaDeal</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: #0d0d0d;
+            background-image:
+                radial-gradient(ellipse at top, rgba(249,115,22,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, rgba(249,115,22,0.12) 0%, transparent 60%);
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="text-white flex flex-col min-h-screen">
+
+    <nav class="px-8 py-5">
+        <a href="/">
+            <span style="font-family: Arial Black, sans-serif; font-weight: 900; font-size: 18px; color: white; letter-spacing: 1px;">KITANDA<span style="color: #f97316;">DEAL</span></span>
+        </a>
+    </nav>
+
+    <div class="flex-1 flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-sm">
+            <h1 class="text-3xl font-black mb-2">Criar conta</h1>
+            <p class="text-gray-400 text-sm mb-8">Já tens conta? <a href="/login" class="text-orange-500 hover:underline">Entrar</a></p>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                    {% if msg == 'email_existe' %}
+                    <div class="bg-red-500/10 border border-red-500/40 text-red-400 text-sm px-4 py-3 rounded-lg mb-5">
+                        ✕ Este email já está registado. <a href="/login" class="underline">Entrar?</a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST" class="flex flex-col gap-4">
+                <div>
+                    <input type="text" name="nome" required placeholder="O teu nome"
+                        class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-orange-500 transition"
+                        style="background:#1a1a1a">
+                </div>
+                <div>
+                    <input type="email" name="email" required placeholder="O teu email"
+                        class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-orange-500 transition"
+                        style="background:#1a1a1a">
+                </div>
+                <div class="relative">
+                    <input type="password" name="password" id="password" required placeholder="Criar password"
+                        class="w-full border border-gray-700 rounded-lg px-4 py-3 pr-12 text-white text-sm focus:outline-none focus:border-orange-500 transition"
+                        style="background:#1a1a1a">
+                    <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-orange-500 transition text-xs font-bold">
+                        VER
+                    </button>
+                </div>
+                <button type="submit"
+                    class="bg-orange-500 text-black font-black py-3 rounded-lg hover:bg-orange-400 transition text-sm mt-1">
+                    Criar conta
+                </button>
+            </form>
+
+            <p class="text-center text-gray-600 text-xs mt-8">
+                Ao registares, aceitas os nossos <span class="text-gray-500">Termos de Uso</span> e <span class="text-gray-500">Política de Privacidade</span>.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const btn = input.nextElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = 'OCULTAR';
+            } else {
+                input.type = 'password';
+                btn.textContent = 'VER';
+            }
+        }
+    </script>
+</body>
+</html>

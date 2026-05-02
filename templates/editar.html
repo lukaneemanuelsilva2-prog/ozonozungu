@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publicar Anúncio - KitandaDeal</title>
+    <title>Editar Anúncio - KitandaDeal</title>
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -14,23 +14,21 @@
             <img src="{{ url_for('static', filename='logo.png') }}" alt="KitandaDeal" class="h-10">
         </a>
         <div class="flex items-center gap-3">
-            <span class="text-gray-400 text-sm hidden sm:block">{{ session.get('utilizador_nome') }}</span>
             <a href="/logout" class="text-gray-400 hover:text-orange-500 text-sm transition">Sair</a>
         </div>
     </nav>
 
     <div class="max-w-2xl mx-auto py-12 px-6">
-        <a href="/" class="text-gray-500 hover:text-orange-500 text-sm mb-6 inline-block">← Voltar</a>
-        <h2 class="text-3xl font-black mb-8">Publicar <span class="text-orange-500">Anúncio</span></h2>
+        <a href="/anuncio/{{ anuncio.id }}" class="text-gray-500 hover:text-orange-500 text-sm mb-6 inline-block">← Voltar ao anúncio</a>
+        <h2 class="text-3xl font-black mb-8">Editar <span class="text-orange-500">Anúncio</span></h2>
 
         <form method="POST" enctype="multipart/form-data" class="flex flex-col gap-5">
 
             <div>
                 <label class="text-gray-400 text-sm mb-1 block">Título</label>
-                <input type="text" name="titulo" required
+                <input type="text" name="titulo" required value="{{ anuncio.titulo }}"
                     class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
-                    style="background:#1a1a1a"
-                    placeholder="Ex: iPhone 15 Pro Max">
+                    style="background:#1a1a1a">
             </div>
 
             <div>
@@ -38,39 +36,38 @@
                 <select name="categoria" required
                     class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
                     style="background:#1a1a1a">
-                    <option value="">Seleciona uma categoria</option>
                     {% for icone, cat in categorias %}
-                    <option value="{{ cat }}">{{ icone }} {{ cat }}</option>
+                    <option value="{{ cat }}" {% if anuncio.categoria == cat %}selected{% endif %}>{{ icone }} {{ cat }}</option>
                     {% endfor %}
                 </select>
             </div>
 
             <div>
                 <label class="text-gray-400 text-sm mb-1 block">Preço (Kz)</label>
-                <input type="text" name="preco" required
+                <input type="text" name="preco" required value="{{ anuncio.preco }}"
                     class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
-                    style="background:#1a1a1a"
-                    placeholder="Ex: 150.000 Kz">
+                    style="background:#1a1a1a">
             </div>
 
             <div>
                 <label class="text-gray-400 text-sm mb-1 block">Descrição</label>
                 <textarea name="descricao" required rows="4"
                     class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
-                    style="background:#1a1a1a"
-                    placeholder="Descreve o teu produto ou serviço..."></textarea>
+                    style="background:#1a1a1a">{{ anuncio.descricao }}</textarea>
             </div>
 
             <div>
                 <label class="text-gray-400 text-sm mb-1 block">Contacto (WhatsApp ou telefone)</label>
-                <input type="text" name="contacto" required
+                <input type="text" name="contacto" required value="{{ anuncio.contacto }}"
                     class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
-                    style="background:#1a1a1a"
-                    placeholder="Ex: +244 923 000 000">
+                    style="background:#1a1a1a">
             </div>
 
             <div>
-                <label class="text-gray-400 text-sm mb-1 block">Imagem do produto</label>
+                <label class="text-gray-400 text-sm mb-1 block">Nova imagem (opcional)</label>
+                {% if anuncio.imagem %}
+                <img src="{{ url_for('static', filename='uploads/' + anuncio.imagem) }}" class="w-32 h-24 object-cover rounded-lg mb-2">
+                {% endif %}
                 <input type="file" name="imagem" accept="image/*"
                     class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
                     style="background:#1a1a1a">
@@ -78,7 +75,7 @@
 
             <button type="submit"
                 class="bg-orange-500 text-black font-black py-3 rounded-xl hover:bg-orange-400 transition text-lg mt-2">
-                Publicar Anúncio
+                Guardar alterações
             </button>
         </form>
     </div>
