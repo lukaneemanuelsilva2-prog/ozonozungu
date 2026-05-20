@@ -217,6 +217,9 @@ def sobre():
 def suporte():
     return redirect('https://wa.me/244952656994')
 
+if os.path.exists('instance/kitandadeal.db'):
+    os.remove('instance/kitandadeal.db')
+    
 with app.app_context():
     db.create_all()
 
