@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre & Regras - KitandaDeal</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="text-white min-h-screen" style="background:#000000">
+
+    <nav class="px-8 py-4 border-b border-gray-900 flex justify-between items-center" style="background:#000000">
+        <a href="/"><img src="{{ url_for('static', filename='logo.png') }}" alt="KitandaDeal" class="h-14"></a>
+        <a href="/" class="text-gray-500 hover:text-orange-500 text-sm transition">← Voltar</a>
+    </nav>
+
+    <div class="max-w-3xl mx-auto py-16 px-6">
+
+        <h1 class="text-4xl font-black mb-2">Sobre o <span class="text-orange-500">KitandaDeal</span></h1>
+        <p class="text-gray-500 mb-12">A plataforma digital feita em Angola, para Angola.</p>
+
+        <div class="flex flex-col gap-10">
+
+            <div class="border-l-2 border-orange-500 pl-6">
+                <h2 class="text-xl font-black mb-2">O que é o KitandaDeal?</h2>
+                <p class="text-gray-400 leading-relaxed">O KitandaDeal é um marketplace angolano onde qualquer pessoa pode comprar, vender e encontrar produtos e serviços de forma simples, rápida e organizada. Criado por jovens angolanos para resolver o caos do comércio informal digital.</p>
+            </div>
+
+            <div class="border-l-2 border-orange-500 pl-6">
+                <h2 class="text-xl font-black mb-2">Como funciona?</h2>
+                <p class="text-gray-400 leading-relaxed">Crias uma conta, publicas o teu anúncio com foto, preço e contacto, e os compradores entram em contacto contigo directamente pelo WhatsApp. Simples assim.</p>
+            </div>
+
+            <div class="border-l-2 border-orange-500 pl-6">
+                <h2 class="text-xl font-black mb-2">Regras da plataforma</h2>
+                <ul class="text-gray-400 leading-relaxed flex flex-col gap-2 mt-2">
+                    <li class="flex items-start gap-2"><span class="text-orange-500 font-black">1.</span> É proibido publicar conteúdo ilegal, adulto ou ofensivo.</li>
+                    <li class="flex items-start gap-2"><span class="text-orange-500 font-black">2.</span> O preço publicado não pode ser alterado após a publicação do anúncio.</li>
+                    <li class="flex items-start gap-2"><span class="text-orange-500 font-black">3.</span> Cada anúncio deve corresponder a um produto ou serviço real.</li>
+                    <li class="flex items-start gap-2"><span class="text-orange-500 font-black">4.</span> Imagens falsas ou enganosas levam à remoção do anúncio.</li>
+                    <li class="flex items-start gap-2"><span class="text-orange-500 font-black">5.</span> O KitandaDeal não se responsabiliza pelas transações entre compradores e vendedores.</li>
+                    <li class="flex items-start gap-2"><span class="text-orange-500 font-black">6.</span> Anúncios que violem as regras serão removidos sem aviso prévio.</li>
+                </ul>
+            </div>
+
+            <div class="border-l-2 border-orange-500 pl-6">
+                <h2 class="text-xl font-black mb-2">Precisa de ajuda?</h2>
+                <p class="text-gray-400 leading-relaxed mb-4">Fala connosco directamente pelo WhatsApp. Respondemos o mais rápido possível.</p>
+                <a href="/suporte" class="bg-orange-500 text-black font-black px-6 py-3 rounded-xl hover:bg-orange-400 transition inline-block text-sm">
+                    Contactar Suporte
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

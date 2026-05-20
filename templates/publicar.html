@@ -7,15 +7,20 @@
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="text-white min-h-screen" style="background:#0d0d0d">
+<body class="text-white min-h-screen" style="background:#000000">
 
-    <nav class="sticky top-0 z-30 border-b border-orange-500/40 px-6 py-3 flex justify-between items-center" style="background:#111111">
+    <nav class="sticky top-0 z-30 border-b border-orange-500/40 px-6 py-2 flex justify-between items-center" style="background:#000000">
         <a href="/">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="KitandaDeal" class="h-10">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="KitandaDeal" class="h-16">
         </a>
         <div class="flex items-center gap-3">
-            <span class="text-gray-400 text-sm hidden sm:block">{{ session.get('utilizador_nome') }}</span>
-            <a href="/logout" class="text-gray-400 hover:text-orange-500 text-sm transition">Sair</a>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center">
+                    <span class="text-black font-black text-sm">{{ session.get('utilizador_nome')[0].upper() }}</span>
+                </div>
+                <span class="text-white font-bold text-sm hidden sm:block">{{ session.get('utilizador_nome') }}</span>
+            </div>
+            <a href="/logout" class="text-gray-500 hover:text-orange-500 text-sm transition">Sair</a>
         </div>
     </nav>
 
@@ -28,16 +33,16 @@
             <div>
                 <label class="text-gray-400 text-sm mb-1 block">Título</label>
                 <input type="text" name="titulo" required
-                    class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
-                    style="background:#1a1a1a"
+                    class="w-full border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
+                    style="background:#111111"
                     placeholder="Ex: iPhone 15 Pro Max">
             </div>
 
             <div>
                 <label class="text-gray-400 text-sm mb-1 block">Categoria</label>
                 <select name="categoria" required
-                    class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
-                    style="background:#1a1a1a">
+                    class="w-full border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
+                    style="background:#111111">
                     <option value="">Seleciona uma categoria</option>
                     {% for icone, cat in categorias %}
                     <option value="{{ cat }}">{{ icone }} {{ cat }}</option>
@@ -48,32 +53,32 @@
             <div>
                 <label class="text-gray-400 text-sm mb-1 block">Preço (Kz)</label>
                 <input type="text" name="preco" required
-                    class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
-                    style="background:#1a1a1a"
+                    class="w-full border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
+                    style="background:#111111"
                     placeholder="Ex: 150.000 Kz">
             </div>
 
             <div>
                 <label class="text-gray-400 text-sm mb-1 block">Descrição</label>
                 <textarea name="descricao" required rows="4"
-                    class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
-                    style="background:#1a1a1a"
+                    class="w-full border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
+                    style="background:#111111"
                     placeholder="Descreve o teu produto ou serviço..."></textarea>
             </div>
 
             <div>
                 <label class="text-gray-400 text-sm mb-1 block">Contacto (WhatsApp ou telefone)</label>
                 <input type="text" name="contacto" required
-                    class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
-                    style="background:#1a1a1a"
+                    class="w-full border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition"
+                    style="background:#111111"
                     placeholder="Ex: +244 923 000 000">
             </div>
 
             <div>
                 <label class="text-gray-400 text-sm mb-1 block">Imagem do produto</label>
                 <input type="file" name="imagem" accept="image/*"
-                    class="w-full border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
-                    style="background:#1a1a1a">
+                    class="w-full border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                    style="background:#111111">
             </div>
 
             <button type="submit"
@@ -82,5 +87,7 @@
             </button>
         </form>
     </div>
+</body>
+</html>
 </body>
 </html>

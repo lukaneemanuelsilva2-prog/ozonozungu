@@ -7,137 +7,181 @@
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #0d0d0d; }
-        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(249,115,22,0.15); }
+        body { background-color: #000000; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(249,115,22,0.2); }
         .card-hover { transition: all 0.3s ease; }
         #sidebar { transition: transform 0.3s ease; }
         .overlay { transition: opacity 0.3s ease; }
     </style>
 </head>
-<body class="text-white min-h-screen" style="background:#0d0d0d">
+<body class="text-white min-h-screen" style="background:#000000">
 
-    <!-- SIDEBAR OVERLAY -->
-    <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-60 z-40 hidden opacity-0" onclick="closeSidebar()"></div>
+    <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-70 z-40 hidden opacity-0" onclick="closeSidebar()"></div>
 
-    <!-- SIDEBAR -->
-    <div id="sidebar" class="fixed top-0 left-0 h-full w-72 z-50 border-r border-orange-500/30" style="background:#111111; transform:translateX(-100%)">
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-72 z-50 border-r border-orange-500/40" style="background:#0a0a0a; transform:translateX(-100%)">
         <div class="flex items-center justify-between px-5 py-4 border-b border-orange-500/30">
             <span class="text-orange-500 font-bold text-lg">Categorias</span>
             <button onclick="closeSidebar()" class="text-gray-400 hover:text-white text-2xl">✕</button>
         </div>
         <div class="overflow-y-auto h-full pb-20">
-            <a href="/" class="flex items-center gap-3 px-5 py-3 hover:bg-orange-500/10 hover:text-orange-500 transition border-b border-gray-800/50">
-                <span>🏪</span><span class="text-sm">Todos os anúncios</span>
+            <a href="/" class="flex items-center gap-3 px-5 py-3 hover:bg-orange-500/10 hover:text-orange-500 transition border-b border-gray-900">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 10h8M8 14h5"/></svg>
+                <span class="text-sm">Todos os anúncios</span>
             </a>
-            {% for icone, cat in categorias %}
-            <a href="/?categoria={{ cat }}" class="flex items-center gap-3 px-5 py-3 hover:bg-orange-500/10 hover:text-orange-500 transition border-b border-gray-800/50 {% if categoria_actual == cat %}text-orange-500 bg-orange-500/10{% endif %}">
-                <span>{{ icone }}</span><span class="text-sm">{{ cat }}</span>
+            {% for chave, cat in categorias %}
+            <a href="/?categoria={{ cat }}" class="flex items-center gap-3 px-5 py-3 hover:bg-orange-500/10 hover:text-orange-500 transition border-b border-gray-900 {% if categoria_actual == cat %}text-orange-500 bg-orange-500/10{% endif %}">
+                {% if chave == 'electronica' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M8 6V4M16 6V4M12 18v2"/></svg>
+                {% elif chave == 'automotivo' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 17H3v-5l2-5h14l2 5v5h-2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+                {% elif chave == 'roupas-femininas' or chave == 'roupas-masculinas' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+                {% elif chave == 'imoveis' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                {% elif chave == 'mobilia' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 17v2M18 17v2M2 12h20"/></svg>
+                {% elif chave == 'ferramentas' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+                {% elif chave == 'sapatos' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2 16l2-8h7l3 4h6a2 2 0 010 4H4a2 2 0 01-2-2v2z"/></svg>
+                {% elif chave == 'beleza' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 6v6l4 2"/></svg>
+                {% elif chave == 'brinquedos' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+                {% elif chave == 'desporto' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/><path d="M2 12h20"/></svg>
+                {% elif chave == 'joias' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2l3 7H5l3-7z"/><path d="M5 9l7 13 7-13"/></svg>
+                {% elif chave == 'bolsas' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                {% elif chave == 'bebe' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                {% elif chave == 'artes' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                {% elif chave == 'motas' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M8 17h8M12 5v7l4 2"/></svg>
+                {% elif chave == 'jardim' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 7 7 3 2 5c5 0 8 3 10 7M12 12c0-5 5-9 10-7-5 0-8 3-10 7"/></svg>
+                {% elif chave == 'escolar' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                {% elif chave == 'animais' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 1 1.261-.472 1.96-1.45 2.344-2.5M14.267 5.172c0-1.39 1.577-2.493 3.5-2.172 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.96-1.45-2.344-2.5"/><path d="M8 14v.5A3.5 3.5 0 0011.5 18h1a3.5 3.5 0 003.5-3.5V14"/><path d="M8.5 10h7"/></svg>
+                {% elif chave == 'servicos' %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M20 12h2M2 12h2M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41"/></svg>
+                {% else %}<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                {% endif %}
+                <span class="text-sm">{{ cat }}</span>
             </a>
             {% endfor %}
         </div>
     </div>
 
-    <!-- NAVBAR -->
-    <nav class="sticky top-0 z-30 border-b border-orange-500/40 px-6 py-3 flex justify-between items-center" style="background:#111111">
+    <nav class="sticky top-0 z-30 border-b border-orange-500/40 px-6 py-2 flex justify-between items-center" style="background:#000000">
         <div class="flex items-center gap-4">
             <button onclick="openSidebar()" class="text-gray-400 hover:text-orange-500 transition p-1">
                 <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
                 </svg>
             </button>
-            <a href="/" class="flex items-center gap-2">
-                <span style="font-family: Arial Black, sans-serif; font-weight: 900; font-size: 18px; color: white; letter-spacing: 1px;">KITANDA<span style="color: #f97316;">DEAL</span></span>
-            </a>
+            <a href="/"><img src="{{ url_for('static', filename='logo.png') }}" alt="KitandaDeal" class="h-14"></a>
         </div>
         <div class="flex items-center gap-3">
             {% if session.get('utilizador_id') %}
-                <span class="text-gray-400 text-sm hidden sm:block">{{ session.get('utilizador_nome') }}</span>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center">
+                        <span class="text-black font-black text-sm">{{ session.get('utilizador_nome')[0].upper() }}</span>
+                    </div>
+                    <span class="text-white font-bold text-sm hidden sm:block">{{ session.get('utilizador_nome') }}</span>
+                </div>
                 <a href="/publicar" class="bg-orange-500 text-black px-4 py-2 rounded-lg font-bold text-sm hover:bg-orange-400 transition">Publicar</a>
-                <a href="/logout" class="text-gray-400 hover:text-orange-500 text-sm transition">Sair</a>
+                <a href="/logout" class="text-gray-500 hover:text-orange-500 text-sm transition">Sair</a>
             {% else %}
-                <a href="/login" class="text-gray-300 hover:text-orange-500 text-sm transition">Entrar</a>
+                <a href="/login" class="text-gray-300 hover:text-orange-500 text-sm transition font-semibold">Entrar</a>
                 <a href="/registar" class="bg-orange-500 text-black px-4 py-2 rounded-lg font-bold text-sm hover:bg-orange-400 transition">Registar</a>
             {% endif %}
         </div>
     </nav>
 
-    <!-- HERO -->
     <section class="text-center py-14 px-6">
         <h1 class="text-4xl sm:text-5xl font-black mb-3 tracking-tight">Compra. Vende. <span class="text-orange-500">Em Angola.</span></h1>
-        <p class="text-gray-400 text-lg mb-8">Da rua para o digital, bem-vindo à tua Kitanda.</p>
+        <p class="text-gray-500 text-lg mb-8">Da rua para o digital, bem-vindo à tua Kitanda.</p>
         <a href="{% if session.get('utilizador_id') %}/publicar{% else %}/login{% endif %}"
            class="bg-orange-500 text-black px-8 py-3 rounded-xl font-bold text-lg hover:bg-orange-400 transition inline-block">
             Publicar Anúncio
         </a>
     </section>
 
-    <!-- PESQUISA + FILTROS -->
     <section class="max-w-7xl mx-auto px-6 mb-8">
         <form method="GET" action="/" class="mb-6">
             <div class="flex gap-3">
                 <input type="text" name="pesquisa" value="{{ pesquisa }}"
                     placeholder="Pesquisar anúncios..."
-                    class="flex-1 border border-gray-700 rounded-xl px-5 py-3 text-white focus:outline-none focus:border-orange-500 transition"
-                    style="background:#1a1a1a">
+                    class="flex-1 border border-gray-800 rounded-xl px-5 py-3 text-white focus:outline-none focus:border-orange-500 transition"
+                    style="background:#0a0a0a">
                 <button type="submit" class="bg-orange-500 text-black font-bold px-6 py-3 rounded-xl hover:bg-orange-400 transition">
                     Pesquisar
                 </button>
             </div>
         </form>
 
-        <!-- FILTROS RÁPIDOS -->
         <div class="flex flex-wrap gap-2 mb-8">
             <a href="/" class="px-4 py-2 rounded-full text-sm font-semibold border transition
-                {% if not categoria_actual %}bg-orange-500 text-black border-orange-500{% else %}border-gray-700 text-gray-300 hover:border-orange-500 hover:text-orange-500{% endif %}">
+                {% if not categoria_actual %}bg-orange-500 text-black border-orange-500{% else %}border-gray-800 text-gray-400 hover:border-orange-500 hover:text-orange-500{% endif %}">
                 Todos
             </a>
-            {% for icone, cat in categorias[:8] %}
+            {% for chave, cat in categorias[:8] %}
             <a href="/?categoria={{ cat }}" class="px-4 py-2 rounded-full text-sm font-semibold border transition
-                {% if categoria_actual == cat %}bg-orange-500 text-black border-orange-500{% else %}border-gray-700 text-gray-300 hover:border-orange-500 hover:text-orange-500{% endif %}">
-                {{ icone }} {{ cat }}
+                {% if categoria_actual == cat %}bg-orange-500 text-black border-orange-500{% else %}border-gray-800 text-gray-400 hover:border-orange-500 hover:text-orange-500{% endif %}">
+                {{ cat }}
             </a>
             {% endfor %}
-            
         </div>
 
-        <!-- ANÚNCIOS -->
         {% if anuncios %}
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {% for anuncio in anuncios %}
-            <a href="/anuncio/{{ anuncio.id }}" class="card-hover rounded-2xl overflow-hidden border border-gray-800 block" style="background:#1a1a1a">
-                {% if anuncio.imagem %}
-                <img src="{{ url_for('static', filename='uploads/' + anuncio.imagem) }}" class="w-full h-44 object-cover">
-                {% else %}
-                <div class="w-full h-44 flex flex-col items-center justify-center" style="background:#222222">
-                    <span class="text-4xl mb-2">
-                        {% for icone, cat in categorias %}{% if cat == anuncio.categoria %}{{ icone }}{% endif %}{% endfor %}
-                    </span>
-                    <span class="text-gray-600 text-xs">Sem imagem</span>
-                </div>
+            <div class="relative card-hover rounded-2xl overflow-hidden border border-gray-900" style="background:#0a0a0a">
+                {% if session.get('utilizador_id') and session.get('utilizador_id') != anuncio.utilizador_id %}
+                <form method="POST" action="/ocultar/{{ anuncio.id }}" class="absolute top-2 right-2 z-10"
+                      onsubmit="return confirm('Ocultar este anúncio para ti?')">
+                    <button type="submit" title="Ocultar para mim"
+                        class="bg-black bg-opacity-70 hover:bg-opacity-100 text-white rounded-full w-7 h-7 flex items-center justify-center transition">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
+                            <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
+                            <line x1="1" y1="1" x2="23" y2="23"/>
+                        </svg>
+                    </button>
+                </form>
                 {% endif %}
-                <div class="p-3">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="text-xs font-bold text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded-full">{{ anuncio.categoria }}</span>
-                        {% if anuncio.vendido %}
-                        <span class="text-xs font-bold text-red-400">VENDIDO</span>
-                        {% endif %}
+                <a href="/anuncio/{{ anuncio.id }}" class="block">
+                    {% if anuncio.imagem %}
+                    <img src="{{ url_for('static', filename='uploads/' + anuncio.imagem) }}" class="w-full h-44 object-cover">
+                    {% else %}
+                    <div class="w-full h-44 flex flex-col items-center justify-center" style="background:#111111">
+                        <svg width="40" height="40" fill="none" stroke="#333" stroke-width="1.5" viewBox="0 0 24 24">
+                            <rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 10h8M8 14h5"/>
+                        </svg>
+                        <span class="text-gray-700 text-xs mt-2">Sem imagem</span>
                     </div>
-                    <h4 class="font-bold text-sm mb-1 leading-tight line-clamp-2">{{ anuncio.titulo }}</h4>
-                    <p class="text-gray-500 text-xs mb-2 line-clamp-1">{{ anuncio.descricao }}</p>
-                    <p class="text-orange-500 font-black text-base">{{ anuncio.preco }}</p>
-                    <p class="text-gray-600 text-xs mt-1">{{ anuncio.data.strftime('%d/%m/%Y') }}</p>
-                </div>
-            </a>
+                    {% endif %}
+                    <div class="p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-bold text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded-full">{{ anuncio.categoria }}</span>
+                            {% if anuncio.vendido %}
+                            <span class="text-xs font-bold text-red-400">VENDIDO</span>
+                            {% endif %}
+                        </div>
+                        <h4 class="font-bold text-sm mb-1 leading-tight line-clamp-2">{{ anuncio.titulo }}</h4>
+                        <p class="text-gray-600 text-xs mb-2 line-clamp-1">{{ anuncio.descricao }}</p>
+                        <p class="text-orange-500 font-black text-base">{{ anuncio.preco }}</p>
+                        <p class="text-gray-700 text-xs mt-1">{{ anuncio.data.strftime('%d/%m/%Y') }}</p>
+                    </div>
+                </a>
+            </div>
             {% endfor %}
         </div>
         {% else %}
-        <div class="text-center py-24 text-gray-700">
-            <p class="text-6xl mb-4">🛒</p>
-            <p class="text-xl font-bold">Nenhum anúncio encontrado.</p>
-            <p class="text-sm mt-2">Sê o primeiro a publicar!</p>
+        <div class="text-center py-24">
+            <svg width="64" height="64" fill="none" stroke="#222" stroke-width="1.5" viewBox="0 0 24 24" class="mx-auto mb-4">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+            </svg>
+            <p class="text-xl font-bold text-gray-700">Nenhum anúncio encontrado.</p>
+            <p class="text-sm mt-2 text-gray-800">Sê o primeiro a publicar!</p>
         </div>
         {% endif %}
     </section>
+
+    <footer class="border-t border-gray-900 mt-16 py-8 px-6 text-center" style="background:#000000">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="KitandaDeal" class="h-12 mx-auto mb-4">
+        <p class="text-gray-700 text-sm mb-2">© 2025 KitandaDeal — Feito em Angola, para Angola.</p>
+        <div class="flex justify-center gap-6 mt-3">
+            <a href="/sobre" class="text-gray-600 hover:text-orange-500 text-sm transition">Sobre & Regras</a>
+            <a href="/suporte" class="text-gray-600 hover:text-orange-500 text-sm transition">Suporte</a>
+        </div>
+    </footer>
 
     <script>
         function openSidebar() {
@@ -152,4 +196,4 @@
         }
     </script>
 </body>
-</html> 
+</html>

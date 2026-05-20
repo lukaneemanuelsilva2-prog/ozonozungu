@@ -13,6 +13,8 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.secret_key = 'kitandadeal_secret_2025'
 os.makedirs('static/uploads', exist_ok=True)
 
+ADMIN_EMAIL = 'lukaneemanuelsilva2@gmail.com'
+
 db = SQLAlchemy(app)
 
 class Utilizador(db.Model):
@@ -34,29 +36,40 @@ class Anuncio(db.Model):
     data = db.Column(db.DateTime, default=datetime.utcnow)
     utilizador_id = db.Column(db.Integer, db.ForeignKey('utilizador.id'), nullable=False)
 
+class AnuncioOculto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    utilizador_id = db.Column(db.Integer, db.ForeignKey('utilizador.id'), nullable=False)
+    anuncio_id = db.Column(db.Integer, db.ForeignKey('anuncio.id'), nullable=False)
+
 CATEGORIAS = [
-    ('📱', 'Electrónica'),
-    ('🚗', 'Automotivo'),
-    ('👗', 'Roupas femininas'),
-    ('👕', 'Roupas masculinas'),
-    ('🏠', 'Imóveis'),
-    ('🛋️', 'Mobília'),
-    ('🔧', 'Ferramentas e Casa'),
-    ('👟', 'Sapatos'),
-    ('💄', 'Beleza e Saúde'),
-    ('🧸', 'Brinquedos e jogos'),
-    ('🏋️', 'Desporto'),
-    ('💍', 'Joias e acessórios'),
-    ('👜', 'Bolsas e malas'),
-    ('🍼', 'Bebé e Maternidade'),
-    ('🎨', 'Artes e artesanato'),
-    ('🏍️', 'Motas e motorizados'),
-    ('🌿', 'Jardim e exterior'),
-    ('📚', 'Material escolar'),
-    ('🐾', 'Animais de estimação'),
-    ('⚙️', 'Serviços'),
-    ('🛒', 'Outros'),
+    ('electronica', 'Electrónica'),
+    ('automotivo', 'Automotivo'),
+    ('roupas-femininas', 'Roupas femininas'),
+    ('roupas-masculinas', 'Roupas masculinas'),
+    ('imoveis', 'Imóveis'),
+    ('mobilia', 'Mobília'),
+    ('ferramentas', 'Ferramentas e Casa'),
+    ('sapatos', 'Sapatos'),
+    ('beleza', 'Beleza e Saúde'),
+    ('brinquedos', 'Brinquedos e jogos'),
+    ('desporto', 'Desporto'),
+    ('joias', 'Joias e acessórios'),
+    ('bolsas', 'Bolsas e malas'),
+    ('bebe', 'Bebé e Maternidade'),
+    ('artes', 'Artes e artesanato'),
+    ('motas', 'Motas e motorizados'),
+    ('jardim', 'Jardim e exterior'),
+    ('escolar', 'Material escolar'),
+    ('animais', 'Animais de estimação'),
+    ('servicos', 'Serviços'),
+    ('outros', 'Outros'),
 ]
+
+def is_admin():
+    if 'utilizador_id' not in session:
+        return False
+    u = Utilizador.query.get(session['utilizador_id'])
+    return u and u.email == ADMIN_EMAIL
 
 @app.route('/')
 def index():
@@ -67,8 +80,12 @@ def index():
         query = query.filter_by(categoria=categoria)
     if pesquisa:
         query = query.filter(Anuncio.titulo.ilike(f'%{pesquisa}%'))
+    if 'utilizador_id' in session:
+        ocultos = [o.anuncio_id for o in AnuncioOculto.query.filter_by(utilizador_id=session['utilizador_id']).all()]
+        if ocultos:
+            query = query.filter(~Anuncio.id.in_(ocultos))
     anuncios = query.order_by(Anuncio.data.desc()).all()
-    return render_template('index.html', anuncios=anuncios, categoria_actual=categoria, pesquisa=pesquisa, categorias=CATEGORIAS)
+    return render_template('index.html', anuncios=anuncios, categoria_actual=categoria, pesquisa=pesquisa, categorias=CATEGORIAS, admin=is_admin())
 
 @app.route('/registar', methods=['GET', 'POST'])
 def registar():
@@ -138,12 +155,12 @@ def publicar():
 def anuncio(id):
     anuncio = Anuncio.query.get_or_404(id)
     dono = session.get('utilizador_id') == anuncio.utilizador_id
-    return render_template('anuncio.html', anuncio=anuncio, dono=dono)
+    return render_template('anuncio.html', anuncio=anuncio, dono=dono, admin=is_admin())
 
 @app.route('/apagar/<int:id>', methods=['POST'])
 def apagar(id):
     anuncio = Anuncio.query.get_or_404(id)
-    if session.get('utilizador_id') != anuncio.utilizador_id:
+    if session.get('utilizador_id') != anuncio.utilizador_id and not is_admin():
         return redirect(url_for('index'))
     db.session.delete(anuncio)
     db.session.commit()
@@ -166,7 +183,6 @@ def editar(id):
     if request.method == 'POST':
         anuncio.titulo = request.form['titulo']
         anuncio.descricao = request.form['descricao']
-        anuncio.preco = request.form['preco']
         anuncio.categoria = request.form['categoria']
         anuncio.contacto = request.form['contacto']
         if 'imagem' in request.files:
@@ -178,6 +194,28 @@ def editar(id):
         db.session.commit()
         return redirect(url_for('anuncio', id=id))
     return render_template('editar.html', anuncio=anuncio, categorias=CATEGORIAS)
+
+@app.route('/ocultar/<int:id>', methods=['POST'])
+def ocultar(id):
+    if 'utilizador_id' not in session:
+        return redirect(url_for('login'))
+    ja_existe = AnuncioOculto.query.filter_by(
+        utilizador_id=session['utilizador_id'],
+        anuncio_id=id
+    ).first()
+    if not ja_existe:
+        novo = AnuncioOculto(utilizador_id=session['utilizador_id'], anuncio_id=id)
+        db.session.add(novo)
+        db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/sobre')
+def sobre():
+    return render_template('sobre.html')
+
+@app.route('/suporte')
+def suporte():
+    return redirect('https://wa.me/244952656994')
 
 with app.app_context():
     db.create_all()
