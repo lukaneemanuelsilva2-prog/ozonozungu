@@ -228,5 +228,5 @@ if __name__ == '__main__':
     #git add .
     #git commit -m "primeiro commit"
     #git branch -M main
-    #git remote add origin https://github.com/NOME-DE-UTILIZADOR/NOME-DO-REPOSITORIO.git
+    #git remote add origin https://github.com/lukaneemanuelsilva2-prog/ozonozungu.git
     #git push -u origin main
