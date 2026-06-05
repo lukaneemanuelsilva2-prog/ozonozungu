@@ -222,3 +222,11 @@ with app.app_context():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+    #git init
+    #git add .
+    #git commit -m "primeiro commit"
+    #git branch -M main
+    #git remote add origin https://github.com/NOME-DE-UTILIZADOR/NOME-DO-REPOSITORIO.git
+    #git push -u origin main
